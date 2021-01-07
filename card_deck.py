@@ -18,5 +18,9 @@ class Deck:
 
         print(self.cards)
 
+    def count(self):
+        return len(self.cards)
 
-Deck()
+
+d = Deck()
+print(f"This is a {d.count()} card deck.")
