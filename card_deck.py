@@ -1,3 +1,6 @@
+from random import shuffle
+
+
 class Card:
     def __init__(self, value, suit):
         self.value = value
@@ -7,18 +10,14 @@ class Card:
         return f"{self.value} of {self.suit}"
 
 
-print(Card("A", "Clubs"))
-
-
 class Deck:
     def __init__(self):
         suits = ["Diamonds", "Hearts", "Clubs", "Spades"]
         values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
         self.cards = [Card(value, suit) for suit in suits for value in values]
-        print(self.cards)
 
     def __repr__(self):
-        return f"This is a {d.count()} card deck."
+        return f"This is a {self.count()} card deck."
 
     def count(self):
         return len(self.cards)
@@ -27,13 +26,31 @@ class Deck:
         count = self.count()
         actual = min([count, num])
         if count == 0:
-            return ValueError("All cards have been dealt!")
+            raise ValueError("All cards have been dealt!")
         cards = self.cards[-actual:]
         self.cards = self.cards[:-actual]
         return cards
 
+    def deal_card(self):
+        return self._deal(1)[0]
+
+    def deal_hand(self, hand_size):
+        return self._deal(hand_size)
+
+    def shuffle(self):
+        if self.count() < 52:
+            raise ValueError("Only full decks can be shuffled")
+
+        shuffle(self.cards)
+        return self
+
 
 d = Deck()
-print(d._deal(52))
-print(d.count())
-print(d._deal(52))
+d.shuffle()
+card = d.deal_card()
+print(card)
+hand = d.deal_hand(50)
+card2 = d.deal_card()
+print(card2)
+print(d.cards)
+card2 = d.deal_card()
